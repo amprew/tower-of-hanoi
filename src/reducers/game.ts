@@ -19,6 +19,26 @@ type State = {
   currentSelected: CurrentSelected;
 };
 
+const resetSelection = (state: State) => {
+  return { ...state, currentSelected: null };
+};
+
+const moveBlock = (state: State, item: CurrentSelected) => {
+  const {
+    board,
+    currentSelected
+  } = state;
+
+  const newBoard = board.slice(0);
+  const oldSelected = newBoard[currentSelected].shift();
+  newBoard[item] = [oldSelected, ...newBoard[item]];
+  return {
+    ...state,
+    board: newBoard,
+    currentSelected: null
+  };
+};
+
 const setNewSelection = (state: State, item: CurrentSelected ) => {
   const {
     board,
@@ -30,17 +50,9 @@ const setNewSelection = (state: State, item: CurrentSelected ) => {
   // console.log(currentSelected);
   if(currentSelected !== null) {
     const currentSelectedSize = board[currentSelected][0];
-    if(currentSelectedSize > board[item][0]) return state;
+    if(currentSelectedSize > board[item][0]) return resetSelection(state);
 
-    console.log(board, currentSelected, item);
-    const newBoard = board.slice(0);
-    const oldSelected = newBoard[currentSelected].shift();
-    newBoard[item] = [oldSelected, ...newBoard[item]];
-    return {
-      ...state,
-      board: newBoard,
-      currentSelected: null
-    }
+    return moveBlock(state, item);
   }
 
   return { ...state, currentSelected: item };
