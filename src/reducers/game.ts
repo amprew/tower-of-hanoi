@@ -2,7 +2,7 @@ import { SELECT_ITEM_ACTION } from '../actions/select-item';
 
 const initialState = {
   board: [
-    [1,2,3,4,5],
+    [1,2,3],
     [],
     []
   ],
