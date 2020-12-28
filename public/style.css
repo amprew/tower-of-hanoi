@@ -160,3 +160,19 @@ html, body {
   background-color: rgba(5, 150, 105);
   width: 90%;
 }
+
+.github-link {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.5rem;
+
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+}
+
+.github-link img {
+  width: 100%;
+  height: 100%;
+}
