@@ -46,6 +46,8 @@ const Col = ({ items, currentSelected, setSelectedColumn, index, handleMouseOver
   const colRef = useRef(null);
 
   const onClick = () => {
+    handleMouseOver(index);
+
     if(currentSelected === null) {
       const animation = animateBlockUp(colRef.current);
       setSelectedColumn(index, animation);
