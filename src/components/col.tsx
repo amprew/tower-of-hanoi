@@ -54,12 +54,6 @@ const Col = ({ items, currentSelected, setSelectedColumn, index, handleMouseOver
       return;
     }
 
-    if(currentSelected === index) {
-      const animation = animateBlockDown(colRef.current);
-      setSelectedColumn(index, animation);
-      return;
-    }
-
     const animation = animateBlockDown(colRef.current);
     setSelectedColumn(index, animation);
     return;
