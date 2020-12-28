@@ -47,8 +47,6 @@ const setNewSelection = (state: State, item: CurrentSelected ) => {
     currentSelected
   } = state;
 
-  if(board[item].length === 0 && currentSelected === null) return state;
-
   if(currentSelected !== null) {
     const currentSelectedSize = board[currentSelected][0];
     if(currentSelectedSize > board[item][0]) return resetSelection(state);
