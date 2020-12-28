@@ -13,11 +13,14 @@ html, body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.title {
+.intro {
   text-align: center;
+  padding-bottom: 15vh;
+  padding-top: 20vh;
+}
 
-  margin-top: 20vh;
-  margin-bottom: 15vh;
+.title {
+  margin: 0;
 }
 
 .game {
