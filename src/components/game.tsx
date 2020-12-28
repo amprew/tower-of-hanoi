@@ -22,9 +22,10 @@ const CurrentItem = ({ board, currentSelected, override }) => {
   );
 };
 
-const Game = ({ board, currentSelected, setSelectedColumn }) => {
+const Game = ({ board, isAnimating, currentSelected, setSelectedColumn }) => {
   const [override, setOverride] = useState(null);
   const handleMouseOver = (index) => {
+    if(isAnimating) return;
     setOverride(index)
   }
 

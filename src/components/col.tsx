@@ -68,7 +68,7 @@ const Col = ({ items, currentSelected, setSelectedColumn, index, handleMouseOver
       className="col block-group"
       onClick={onClick}
       ref={colRef}
-      onMouseEnter={() => handleMouseOver(index)}
+      onMouseMove={() => handleMouseOver(index)}
     >
         {
           items

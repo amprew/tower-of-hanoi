@@ -1,4 +1,4 @@
-import { SELECT_ITEM_ACTION } from '../actions/select-item';
+import { SELECT_ITEM_ACTION, ANIMATING_ACTION } from '../actions/select-item';
 
 const initialState = {
   board: [
@@ -6,7 +6,8 @@ const initialState = {
     [],
     []
   ],
-  currentSelected: null
+  currentSelected: null,
+  isAnimating: false
 };
 
 // order of cols or pegs in game
@@ -17,6 +18,7 @@ type CurrentSelected = number | null; // infer exact block from the column selec
 type State = {
   board: Board;
   currentSelected: CurrentSelected;
+  isAnimating: boolean;
 };
 
 const resetSelection = (state: State) => {
@@ -57,10 +59,16 @@ const setNewSelection = (state: State, item: CurrentSelected ) => {
   return { ...state, currentSelected: item };
 };
 
+const setIsAnimating = (state, value) => {
+  return { ...state, isAnimating: value };
+};
+
 export default function game(state: State = initialState, action = null) {
   switch(action.type) {
     case SELECT_ITEM_ACTION:
       return setNewSelection(state, action.value);
+    case ANIMATING_ACTION:
+      return setIsAnimating(state, action.value);
   }
 
   return state;
