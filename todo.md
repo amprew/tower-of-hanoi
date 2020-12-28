@@ -1,3 +1,0 @@
-- use redux thunk to only animate when state comes back successful.
-- check for transitionend and not setTimeout
-- 
