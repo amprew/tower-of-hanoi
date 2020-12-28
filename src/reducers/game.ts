@@ -1,5 +1,5 @@
 import { SELECT_ITEM_ACTION, ANIMATING_ACTION } from '../actions/select-item';
-import { SET_MOVE_COUNT } from '../actions/move-count';
+import { SET_MOVE_COUNT_ACTION } from '../actions/move-count';
 
 const initialState = {
   board: [
@@ -74,7 +74,7 @@ export default function game(state: State = initialState, action = null) {
       return setNewSelection(state, action.value);
     case ANIMATING_ACTION:
       return setIsAnimating(state, action.value);
-    case SET_MOVE_COUNT:
+    case SET_MOVE_COUNT_ACTION:
       return setMoveCount(state, action.value);
   }
 

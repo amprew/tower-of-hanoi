@@ -1,11 +1,11 @@
-export const SET_MOVE_COUNT = 'set-move-count';
+export const SET_MOVE_COUNT_ACTION = 'set-move-count';
 
 export const incrementMoveCounter = () => {
   return (dispatch, getState) => {
     const { moveCount } = getState();
 
     dispatch({
-      type: SET_MOVE_COUNT,
+      type: SET_MOVE_COUNT_ACTION,
       value: moveCount + 1
     })
   }
@@ -14,7 +14,7 @@ export const incrementMoveCounter = () => {
 export const resetMoveCounter = () => {
   return (dispatch) => {
     dispatch({
-      type: SET_MOVE_COUNT,
+      type: SET_MOVE_COUNT_ACTION,
       value: 0
     })
   }
