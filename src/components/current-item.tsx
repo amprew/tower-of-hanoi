@@ -9,7 +9,8 @@ const CurrentItem = ({ board, currentSelected, hoverOverride }) => {
 
   const currentSelectedSize = board[currentSelected][0];
 
-  const gameWidth = document.querySelector('.game').offsetWidth / 3;
+  const game: HTMLElement = document.querySelector('.game');
+  const gameWidth = game.offsetWidth / 3;
 
   return (
     <div className="col col-short col-active" style={{ left: hoverOverride !== null ? gameWidth*hoverOverride : gameWidth*currentSelected }}>
