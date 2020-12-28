@@ -1,6 +1,8 @@
 export const SELECT_ITEM_ACTION = 'select-item';
 export const ANIMATING_ACTION = 'is-animating';
 
+import { incrementMoveCounter } from './move-count';
+
 const dispatchAnimating = (dispatch: Function, isAnimating: boolean) => {
   dispatch({
     type: ANIMATING_ACTION,
@@ -27,6 +29,9 @@ export const setSelectedColumn = (itemN, animation) => {
     // if item selected & current selected is greater than top of column
     if(currentSelected !== null && board[currentSelected][0] > board[itemN][0]) return false;
 
+    if(currentSelected !== null && currentSelected !== itemN) {
+      dispatch(incrementMoveCounter());
+    }
     dispatchAnimating(dispatch, true);
 
     animation().then(() => {

@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 
+import Block from './block';
 import Col from './col';
+import MoveCount from './move-count';
 
 import { setSelectedColumn } from '../actions/select-item';
-import Block from './block';
 
 const CurrentItem = ({ board, currentSelected, override }) => {
   if(currentSelected === null) {
@@ -22,7 +23,13 @@ const CurrentItem = ({ board, currentSelected, override }) => {
   );
 };
 
-const Game = ({ board, isAnimating, currentSelected, setSelectedColumn }) => {
+const Game = ({
+  board,
+  currentSelected,
+  setSelectedColumn,
+  isAnimating,
+  moveCount
+}) => {
   const [override, setOverride] = useState(null);
   const handleMouseOver = (index) => {
     if(isAnimating) return;
@@ -31,6 +38,7 @@ const Game = ({ board, isAnimating, currentSelected, setSelectedColumn }) => {
 
   return (
     <div className="game">
+      <MoveCount count={moveCount} />
       <div className="col-wrapper current-item-container">
         <CurrentItem board={board} currentSelected={currentSelected} override={override} />
       </div>
