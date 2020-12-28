@@ -2,7 +2,7 @@ import { SELECT_ITEM_ACTION } from '../actions/select-item';
 
 const initialState = {
   board: [
-    [1,2,3],
+    [1,2,3,4],
     [],
     []
   ],
@@ -47,7 +47,6 @@ const setNewSelection = (state: State, item: CurrentSelected ) => {
 
   if(board[item].length === 0 && currentSelected === null) return state;
 
-  // console.log(currentSelected);
   if(currentSelected !== null) {
     const currentSelectedSize = board[currentSelected][0];
     if(currentSelectedSize > board[item][0]) return resetSelection(state);

@@ -42,13 +42,16 @@ html, body {
 
 .col-wrapper {
   display: flex;
-  align-items: center;
   justify-content: end;
 }
 
 .col {
   width: 100%;
   position: relative;
+}
+
+.col-short {
+  width: 33.333%;
 }
 
 .justify-bottom {
@@ -59,9 +62,20 @@ html, body {
 }
 
 .col.block-group {
-  height: 200px;
+  min-height: 200px;
   position: relative;
   padding-top: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.block-selected .block:first-child {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(-2rem + -0.125rem);
 }
 
 .col.block-group::before {
@@ -85,6 +99,13 @@ html, body {
   margin: 0 auto 0.125rem;
   z-index: 1;
   border-radius: 2px;
+  transition: top 0.2s linear;
+  top: 0;
+  position: relative;
+}
+
+.col-active {
+  transition: left 0.2s linear;
 }
 
 .block-1 {
