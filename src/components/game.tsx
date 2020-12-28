@@ -2,28 +2,12 @@ import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Block from './block';
+import CurrentItem from './current-item';
 import Col from './col';
 import MoveCount from './move-count';
 
 import { setSelectedColumn } from '../actions/select-item';
 import { resetGame } from '../actions/game-controls';
-
-const CurrentItem = ({ board, currentSelected, override }) => {
-  if(currentSelected === null) {
-    return null;
-  }
-
-  const currentSelectedSize = board[currentSelected][0];
-
-  const gameWidth = document.querySelector('.game').offsetWidth / 3;
-
-  return (
-    <div className="col col-short col-active" style={{ left: override !== null ? gameWidth*override : gameWidth*currentSelected }}>
-      <Block size={currentSelectedSize} active={true} />
-    </div>
-  );
-};
 
 const Game = ({
   board,
@@ -33,10 +17,10 @@ const Game = ({
   moveCount,
   resetGame
 }) => {
-  const [override, setOverride] = useState(null);
+  const [hoverOverride, setHoverOverride] = useState(null);
   const handleMouseOver = (index) => {
     if(isAnimating) return;
-    setOverride(index)
+    setHoverOverride(index)
   }
 
   const gameWon = board[board.length-1].length === 4;
@@ -57,7 +41,7 @@ const Game = ({
         </div>
 
         <div className="col-wrapper current-item-container">
-          <CurrentItem board={board} currentSelected={currentSelected} override={override} />
+          <CurrentItem board={board} currentSelected={currentSelected} hoverOverride={hoverOverride} />
         </div>
 
         <div className="col-wrapper">
