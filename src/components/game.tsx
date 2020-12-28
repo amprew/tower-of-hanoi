@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Block from './block';
 import Col from './col';
 import MoveCount from './move-count';
 
 import { setSelectedColumn } from '../actions/select-item';
+import { resetGame } from '../actions/game-controls';
 
 const CurrentItem = ({ board, currentSelected, override }) => {
   if(currentSelected === null) {
@@ -28,7 +30,8 @@ const Game = ({
   currentSelected,
   setSelectedColumn,
   isAnimating,
-  moveCount
+  moveCount,
+  resetGame
 }) => {
   const [override, setOverride] = useState(null);
   const handleMouseOver = (index) => {
@@ -38,7 +41,11 @@ const Game = ({
 
   return (
     <div className="game">
-      <MoveCount count={moveCount} />
+      <div className="game-controls">
+        <MoveCount count={moveCount} />
+        <button onClick={resetGame} type="button" className="link-button">Restart</button>
+      </div>
+
       <div className="col-wrapper current-item-container">
         <CurrentItem board={board} currentSelected={currentSelected} override={override} />
       </div>
@@ -63,6 +70,7 @@ const Game = ({
 
 const mapStateToProps = (state) => state;
 const mapDispatchToProps = dispatch => ({
-  setSelectedColumn: (...args) => dispatch(setSelectedColumn(...args))
+  setSelectedColumn: bindActionCreators(setSelectedColumn, dispatch),
+  resetGame: bindActionCreators(resetGame, dispatch)
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

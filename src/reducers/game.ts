@@ -1,5 +1,6 @@
 import { SELECT_ITEM_ACTION, ANIMATING_ACTION } from '../actions/select-item';
 import { SET_MOVE_COUNT_ACTION } from '../actions/move-count';
+import { RESET_GAME_ACTION } from '../actions/game-controls';
 
 const initialState = {
   board: [
@@ -10,6 +11,12 @@ const initialState = {
   currentSelected: null,
   isAnimating: false,
   moveCount: 0
+};
+
+const getInitialState = () => {
+  const newState = Object.assign({}, initialState);
+  newState.board = newState.board.map(a => [...a]);
+  return newState;
 };
 
 // order of cols or pegs in game
@@ -68,7 +75,11 @@ const setMoveCount = (state, value) => {
   return { ...state, moveCount: value };
 };
 
-export default function game(state: State = initialState, action = null) {
+const resetGame = () => {
+  return getInitialState();
+};
+
+export default function game(state: State = getInitialState(), action = null) {
   switch(action.type) {
     case SELECT_ITEM_ACTION:
       return setNewSelection(state, action.value);
@@ -76,6 +87,8 @@ export default function game(state: State = initialState, action = null) {
       return setIsAnimating(state, action.value);
     case SET_MOVE_COUNT_ACTION:
       return setMoveCount(state, action.value);
+    case RESET_GAME_ACTION:
+      return resetGame();
   }
 
   return state;

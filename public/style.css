@@ -23,10 +23,24 @@ html, body {
   margin: 0;
 }
 
-.move-counter {
+.game-controls {
   position: absolute;
   top: 10px;
   right: 10px;
+  text-align: right;
+}
+
+.game-controls > * {
+  margin-bottom: 0.25rem;
+}
+
+.link-button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+
+  text-decoration: underline;
 }
 
 .game {

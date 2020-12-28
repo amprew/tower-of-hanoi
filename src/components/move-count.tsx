@@ -5,7 +5,7 @@ type Props = {
 };
 
 const MoveCount = ({ count }: Props) => (
-  <div className="move-counter">Moves: {count}</div>
+  <div>Moves: {count}</div>
 );
 // append minimum number of moves such as " / min: 7"
 
