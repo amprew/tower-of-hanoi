@@ -15,8 +15,16 @@ html, body {
 
 .intro {
   text-align: center;
-  padding-bottom: 15vh;
+  padding-bottom: 10vh;
   padding-top: 20vh;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@media only screen and (min-width: 960px) {
+  .intro {
+    padding-bottom: 15vh;
+  }
 }
 
 .title {
