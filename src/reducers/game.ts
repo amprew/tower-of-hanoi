@@ -1,16 +1,25 @@
 import { SELECT_ITEM_ACTION, ANIMATING_ACTION } from '../actions/select-item';
 import { SET_MOVE_COUNT_ACTION } from '../actions/move-count';
-import { RESET_GAME_ACTION } from '../actions/game-controls';
+import { RESET_GAME_ACTION, SET_LEVEL_ACTION } from '../actions/game-controls';
 
-const initialState = {
-  board: [
-    [1,2,3,4],
+export const getBlockCount = (level) => {
+  return level + 2;
+};
+
+const getBoardFromLevel = (level) => {
+  return [
+    Array.from({ length: getBlockCount(level) }, (_, i) => i+1),
     [],
     []
-  ],
+  ];
+};
+
+const initialState = {
+  board: getBoardFromLevel(1),
   currentSelected: null,
   isAnimating: false,
-  moveCount: 0
+  moveCount: 0,
+  level: 1
 };
 
 const getInitialState = () => {
@@ -29,6 +38,7 @@ type State = {
   currentSelected: CurrentSelected;
   isAnimating: boolean;
   moveCount: number;
+  level: number;
 };
 
 const resetSelection = (state: State) => {
@@ -79,6 +89,12 @@ const resetGame = () => {
   return getInitialState();
 };
 
+const setLevel = (level) => {
+  const newState = { ...resetGame(), level };
+  newState.board = getBoardFromLevel(level);
+  return newState;
+};
+
 export default function game(state: State = getInitialState(), action = null) {
   switch(action.type) {
     case SELECT_ITEM_ACTION:
@@ -89,6 +105,8 @@ export default function game(state: State = getInitialState(), action = null) {
       return setMoveCount(state, action.value);
     case RESET_GAME_ACTION:
       return resetGame();
+    case SET_LEVEL_ACTION:
+      return setLevel(action.value);
   }
 
   return state;
