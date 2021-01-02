@@ -1,7 +1,6 @@
 function whichTransitionEvent(){
-  var t;
-  var el = document.createElement('fakeelement');
-  var transitions = {
+  const el = document.createElement('fakeelement');
+  const transitions = {
     'WebkitTransition' :'webkitTransitionEnd',
     'MozTransition'    :'transitionend',
     'MSTransition'     :'msTransitionEnd',
@@ -9,7 +8,7 @@ function whichTransitionEvent(){
     'transition'       :'transitionEnd'
   }
 
-  for(t in transitions){
+  for(const t in transitions){
     if( el.style[t] !== undefined ){
       return transitions[t];
     }

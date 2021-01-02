@@ -1,7 +1,7 @@
 import React from 'react';
 
 type Props = {
-  count: Number;
+  count: number;
 };
 
 const MoveCount = ({ count }: Props) => (

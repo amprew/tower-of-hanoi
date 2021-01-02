@@ -6,8 +6,8 @@ import CurrentItem from './current-item';
 import Col from './col';
 import MoveCount from './move-count';
 
-import { setSelectedColumn } from '../actions/select-item';
-import { resetGame } from '../actions/game-controls';
+import { setSelectedColumn as setSelectedColumnAction } from '../actions/select-item';
+import { resetGame as resetGameAction } from '../actions/game-controls';
 
 const Game = ({
   board,
@@ -52,7 +52,7 @@ const Game = ({
                 currentSelected={currentSelected}
                 setSelectedColumn={setSelectedColumn}
                 index={index}
-                key={index} //being used as order will not chnage
+                key={index} // being used as order will not chnage
                 handleMouseOver={handleMouseOver}
               />
             ))
@@ -65,7 +65,7 @@ const Game = ({
 
 const mapStateToProps = (state) => state;
 const mapDispatchToProps = dispatch => ({
-  setSelectedColumn: bindActionCreators(setSelectedColumn, dispatch),
-  resetGame: bindActionCreators(resetGame, dispatch)
+  setSelectedColumn: bindActionCreators(setSelectedColumnAction, dispatch),
+  resetGame: bindActionCreators(resetGameAction, dispatch)
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

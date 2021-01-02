@@ -8,7 +8,7 @@
     "js:watch": "npm run js -- --watch",
     "server": "http-server -c-1 ./public",
     "start": "npm-run-all --parallel js:watch server",
-    "ts:line": "tslint -c tslint.json 'src/**/*.{ts,tsx}'"
+    "ts:lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'"
   },
   "keywords": [],
   "author": "",

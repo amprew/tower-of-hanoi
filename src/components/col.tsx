@@ -7,9 +7,9 @@ import Block from './block';
 type Props = {
   items: number[],
   currentSelected: number,
-  setSelectedColumn: Function,
+  setSelectedColumn: (index: number, animation: () => Promise<void>) => void,
   index: number,
-  handleMouseOver: Function
+  handleMouseOver: (index: number) => void
 }
 
 type PreloadedAnimation = () => Promise<void>;
@@ -48,13 +48,10 @@ const Col = ({ items, currentSelected, setSelectedColumn, index, handleMouseOver
   const onClick = () => {
     handleMouseOver(index);
 
-    if(currentSelected === null) {
-      const animation = animateBlockUp(colRef.current);
-      setSelectedColumn(index, animation);
-      return;
-    }
+    const animation = currentSelected === null ?
+      animateBlockUp(colRef.current) :
+      animateBlockDown(colRef.current);
 
-    const animation = animateBlockDown(colRef.current);
     setSelectedColumn(index, animation);
     return;
   }

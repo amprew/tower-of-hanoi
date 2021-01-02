@@ -3,21 +3,21 @@ export const ANIMATING_ACTION = 'is-animating';
 
 import { incrementMoveCounter } from './move-count';
 
-const dispatchAnimating = (dispatch: Function, isAnimating: boolean) => {
+const dispatchAnimating = (dispatch, isAnimating: boolean) => {
   dispatch({
     type: ANIMATING_ACTION,
     value: isAnimating
   })
 };
 
-const dispatchSelectedColumn = (dispatch: Function, itemN: number) => {
+const dispatchSelectedColumn = (dispatch, itemN: number) => {
   dispatch({
     type: SELECT_ITEM_ACTION,
     value: itemN
   });
 };
 
-export const setSelectedColumn = (itemN, animation) => {
+export const setSelectedColumn = (itemN: number, animation: () => Promise<void>) => {
   return (dispatch, getState) => {
     const {
       board,
