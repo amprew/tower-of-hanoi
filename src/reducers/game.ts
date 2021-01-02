@@ -85,8 +85,12 @@ const setMoveCount = (state, value) => {
   return { ...state, moveCount: value };
 };
 
-const resetGame = () => {
-  return getInitialState();
+const resetGame = (level = 1) => {
+  return {
+    ...getInitialState(),
+    level,
+    board: getBoardFromLevel(level)
+  };
 };
 
 const setLevel = (level) => {
@@ -104,7 +108,7 @@ export default function game(state: State = getInitialState(), action = null) {
     case SET_MOVE_COUNT_ACTION:
       return setMoveCount(state, action.value);
     case RESET_GAME_ACTION:
-      return resetGame();
+      return resetGame(state.level);
     case SET_LEVEL_ACTION:
       return setLevel(action.value);
   }
