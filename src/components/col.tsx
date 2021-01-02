@@ -72,4 +72,4 @@ const Col = ({ items, currentSelected, setSelectedColumn, index, handleMouseOver
   );
 };
 
-export default Col;
+export default React.memo(Col);

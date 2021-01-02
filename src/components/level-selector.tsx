@@ -14,4 +14,4 @@ const LevelSelector = ({ level, setLevel }: Props) => (
   </div>
 );
 
-export default LevelSelector;
+export default React.memo(LevelSelector);

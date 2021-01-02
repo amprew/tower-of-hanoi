@@ -9,4 +9,4 @@ const Block = ({ size, active = false }: Props) => {
   return <div className={`block block-${size} ${active ? 'active-block' : ''}`}></div>
 };
 
-export default Block;
+export default React.memo(Block);

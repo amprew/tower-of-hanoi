@@ -5,8 +5,8 @@ type Props = {
   blockCount: number;
 };
 
-const MoveCount = React.memo(({ count, blockCount }: Props) => (
+const MoveCount = ({ count, blockCount }: Props) => (
   <div>Moves: {count} (min: {Math.pow(2, blockCount)-1})</div>
-));
+);
 
-export default MoveCount;
+export default React.memo(MoveCount);
