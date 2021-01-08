@@ -37,8 +37,8 @@ export const setSelectedColumn = (itemN: number, animation: () => Promise<void>)
     dispatchAnimating(dispatch, true);
 
     animation().then(() => {
-      dispatchAnimating(dispatch, false);
       dispatchSelectedColumn(dispatch, itemN);
+      dispatchAnimating(dispatch, false);
     });
     return true;
   }
