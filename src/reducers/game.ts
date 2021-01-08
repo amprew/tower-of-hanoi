@@ -23,7 +23,7 @@ const initialState = {
 };
 
 const getInitialState = () => {
-  const newState = Object.assign({}, initialState);
+  const newState = {...initialState};
   newState.board = newState.board.map(a => [...a]);
   return newState;
 };

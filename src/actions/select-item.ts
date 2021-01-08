@@ -21,9 +21,11 @@ export const setSelectedColumn = (itemN: number, animation: () => Promise<void>)
   return (dispatch, getState) => {
     const {
       board,
-      currentSelected
+      currentSelected,
+      isAnimating
     } = getState();
 
+    if(isAnimating) return false;
     // if no item selected & you are trying to pick up from empty column
     if(currentSelected === null && board[itemN].length === 0) return false;
     // if item selected & current selected is greater than top of column
