@@ -122,6 +122,12 @@ html, body {
   border-top-right-radius: 2px;
 
   position: absolute;
+
+  transition: background-color .2s;
+}
+
+.col.block-group:hover::before {
+  background: #a4a5a8;
 }
 
 .block {
