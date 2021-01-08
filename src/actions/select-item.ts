@@ -17,7 +17,7 @@ const dispatchSelectedColumn = (dispatch, itemN: number) => {
   });
 };
 
-export const setSelectedColumn = (itemN: number, animation: () => Promise<void>) => {
+export const setSelectedColumn = (itemN: number, animation: () => Promise<void>): boolean => {
   return (dispatch, getState) => {
     const {
       board,
@@ -25,7 +25,7 @@ export const setSelectedColumn = (itemN: number, animation: () => Promise<void>)
     } = getState();
 
     // if no item selected & you are trying to pick up from empty column
-    if(currentSelected === null && board[itemN].length === 0) return;
+    if(currentSelected === null && board[itemN].length === 0) return false;
     // if item selected & current selected is greater than top of column
     if(currentSelected !== null && board[currentSelected][0] > board[itemN][0]) return false;
 
@@ -38,5 +38,6 @@ export const setSelectedColumn = (itemN: number, animation: () => Promise<void>)
       dispatchAnimating(dispatch, false);
       dispatchSelectedColumn(dispatch, itemN);
     });
+    return true;
   }
 };

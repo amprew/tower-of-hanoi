@@ -7,7 +7,7 @@ import Block from './block';
 type Props = {
   items: number[],
   currentSelected: number,
-  setSelectedColumn: (index: number, animation: () => Promise<void>) => void,
+  setSelectedColumn: (index: number, animation: () => Promise<void>) => boolean,
   index: number,
   handleMouseOver: (index: number) => void
 }
@@ -42,6 +42,13 @@ const animateBlockDown = (column): PreloadedAnimation => () => {
   }
 };
 
+const applyActiveShake = () => {
+  const activeBlock: HTMLElement = document.querySelector('.active-block');
+
+  activeBlock.classList.add('shake-animation');
+  setTimeout(() => activeBlock.classList.remove('shake-animation'), 500);
+};
+
 const Col = ({ items, currentSelected, setSelectedColumn, index, handleMouseOver }: Props) => {
   const colRef = useRef(null);
 
@@ -52,7 +59,10 @@ const Col = ({ items, currentSelected, setSelectedColumn, index, handleMouseOver
       animateBlockUp(colRef.current) :
       animateBlockDown(colRef.current);
 
-    setSelectedColumn(index, animation);
+    const result = setSelectedColumn(index, animation);
+    if(!result) {
+      applyActiveShake();
+    }
     return;
   }
 
@@ -72,4 +82,4 @@ const Col = ({ items, currentSelected, setSelectedColumn, index, handleMouseOver
   );
 };
 
-export default React.memo(Col);
+export default Col;
