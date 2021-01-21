@@ -2,7 +2,8 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
 import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
-import { terser } from "rollup-plugin-terser";
+import { terser } from 'rollup-plugin-terser';
+import NunjucksPlugin from './rollup-nunjucks';
 
 const extensions = [
   '.js', '.jsx', '.ts', '.tsx',
@@ -35,6 +36,13 @@ export default {
       },
       compress: true,
       warnings: false
+    }),
+    NunjucksPlugin({
+      input: './src/index.html',
+      output: './public/index.html',
+      vars: {
+        ENVIRONMENT
+      }
     })
   ]
 };
