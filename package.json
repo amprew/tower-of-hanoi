@@ -25,7 +25,6 @@
     "@rollup/plugin-replace": "^2.3.4",
     "http-server": "^0.12.3",
     "npm-run-all": "^4.1.5",
-    "nunjucks": "^3.2.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
@@ -35,7 +34,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "tslint": "^6.1.3",
     "typescript": "^4.1.3",
-    "@amprew/rollup-plugin-nunjucks": "0.0.4"
+    "@amprew/rollup-plugin-nunjucks": "^0.0.6"
   },
   "dependencies": {
     "@rollup/plugin-html": "^0.2.0"
