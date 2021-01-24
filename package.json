@@ -35,8 +35,5 @@
     "tslint": "^6.1.3",
     "typescript": "^4.1.3",
     "@amprew/rollup-plugin-nunjucks": "^0.0.6"
-  },
-  "dependencies": {
-    "@rollup/plugin-html": "^0.2.0"
   }
 }
