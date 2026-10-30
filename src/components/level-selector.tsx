@@ -1,4 +1,5 @@
 import React from 'react';
+import { MAX_LEVEL } from '../actions/game-controls';
 
 type Props = {
   level: number;
@@ -6,11 +7,24 @@ type Props = {
 };
 
 const LevelSelector = ({ level, setLevel }: Props) => (
-  <div>
-    Level:{' '}
-    <button onClick={() => setLevel(level - 1)} type="button">-</button>
-    {level}
-    <button onClick={() => setLevel(level + 1)} type="button">+</button>
+  <div className="level-selector">
+    <button
+      aria-label="Previous level"
+      disabled={level <= 1}
+      onClick={() => setLevel(level - 1)}
+      type="button"
+    >
+      −
+    </button>
+    <span className="level-value">{level}</span>
+    <button
+      aria-label="Next level"
+      disabled={level >= MAX_LEVEL}
+      onClick={() => setLevel(level + 1)}
+      type="button"
+    >
+      +
+    </button>
   </div>
 );
 

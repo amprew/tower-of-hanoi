@@ -178,55 +178,93 @@ const Game = ({
   };
 
   return (
-    <div>
-      <div className="intro">
-        <h1 className="title">Tower of Hanoi</h1>
-        <p>Move disc one at a time, get all discs to other side in order without placing a larger on smaller.</p>
+    <div className="app-shell">
+      <header className="intro">
+        <div className="intro-copy">
+          <p className="eyebrow">A CLASSIC PUZZLE IN RECURSION</p>
+          <h1 className="title">The Tower<br />of Hanoi<span>.</span></h1>
+          <p className="intro-description">
+            Move one disc at a time. Never place a larger disc on a smaller one.
+          </p>
+        </div>
+        <div className="intro-note">
+          <span>The fewest possible moves</span>
+          <strong>2<sup>n</sup> − 1</strong>
+          <small>Every disc doubles the work.</small>
+        </div>
+      </header>
 
-        {gameWon && <h3>You won! <small>(Try the next level...)</small></h3>}
-      </div>
+      <section className="game" aria-label="Tower of Hanoi game">
+        <div className="game-toolbar">
+          <div className="level-control">
+            <span className="control-label">Level</span>
+            <LevelSelector level={level} setLevel={handleSetLevel} />
+            <span className="level-caption">{blockCount} discs</span>
+          </div>
 
-      <div className="game">
-        <div className="game-controls">
-          <LevelSelector level={level} setLevel={handleSetLevel} />
-          <MoveCount count={moveCount} blockCount={blockCount} />
-          {(isAutoplaying || gameWon) && (
-            <div aria-live="polite">
-              Time remaining: <time>{formatCountdown(countdownSeconds)}</time>
-            </div>
-          )}
-          <button onClick={handleReset} type="button" className="link-button">Restart</button>
-          <button
-            onClick={handleAutoplayToggle}
-            type="button"
-            className="link-button"
-            disabled={gameWon && !isAutoplaying}
-          >
-            {isAutoplaying ? 'Stop autoplay' : 'Autoplay'}
-          </button>
+          <div className="game-actions">
+            {(isAutoplaying || gameWon) && (
+              <div className="countdown" aria-live="polite">
+                <span>{gameWon ? 'Solved in' : 'Estimated time'}</span>
+                <time>{formatCountdown(countdownSeconds)}</time>
+              </div>
+            )}
+            <button onClick={handleReset} type="button" className="button button-secondary">
+              Reset
+            </button>
+            <button
+              onClick={handleAutoplayToggle}
+              type="button"
+              className="button button-primary"
+              disabled={gameWon && !isAutoplaying}
+            >
+              {isAutoplaying ? 'Stop autoplay' : 'Solve for me'}
+            </button>
+          </div>
         </div>
 
-        <div className="col-wrapper current-item-container">
-          <CurrentItem board={board} currentSelected={currentSelected} hoverOverride={hoverOverride} blockCount={blockCount} />
+        {gameWon && (
+          <p className="win-message" role="status">
+            Puzzle solved. Try another level?
+          </p>
+        )}
+
+        <div className="board-frame">
+          <div className="col-wrapper current-item-container">
+            <CurrentItem board={board} currentSelected={currentSelected} hoverOverride={hoverOverride} blockCount={blockCount} />
+          </div>
+
+          <div className="col-wrapper board" style={{ height: boardHeight }}>
+            {
+              board.map((items, index) => (
+                <Col
+                  items={items}
+                  blockCount={blockCount}
+                  currentSelected={currentSelected}
+                  setSelectedColumn={setSelectedColumn}
+                  index={index}
+                  key={index} // being used as order will not chnage
+                  handleMouseOver={handleMouseOver}
+                  disabled={isAutoplaying}
+                />
+              ))
+            }
+          </div>
+
+          <div className="peg-labels" aria-hidden="true">
+            <span>01</span>
+            <span>02</span>
+            <span>03</span>
+          </div>
         </div>
 
-        <div className="col-wrapper" style={{ height: boardHeight }}>
-          {
-            board.map((items, index) => (
-              <Col
-                items={items}
-                blockCount={blockCount}
-                currentSelected={currentSelected}
-                setSelectedColumn={setSelectedColumn}
-                index={index}
-                key={index} // being used as order will not chnage
-                handleMouseOver={handleMouseOver}
-                disabled={isAutoplaying}
-              />
-            ))
-          }
-        </div>
-      </div>
+        <MoveCount count={moveCount} blockCount={blockCount} />
+      </section>
+
+      <footer className="page-footer">
+        <span>Take your time. Find the pattern.</span>
+        <span>Three pegs · {blockCount} discs</span>
+      </footer>
     </div>
   );
 }
