@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@amprew/rollup-plugin-nunjucks": "^0.1.0",
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
@@ -21,9 +22,10 @@
     "@babel/preset-typescript": "^7.12.7",
     "@rollup/plugin-babel": "^5.2.2",
     "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.1",
+    "@rollup/plugin-node-resolve": "^7.1.3",
     "@rollup/plugin-replace": "^2.3.4",
-    "http-server": "^0.12.3",
+    "@rollup/plugin-terser": "^1.0.2",
+    "http-server": "^14.1.1",
     "npm-run-all": "^4.1.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -31,9 +33,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "rollup": "^2.35.1",
-    "rollup-plugin-terser": "^7.0.2",
     "tslint": "^6.1.3",
-    "typescript": "^4.1.3",
-    "@amprew/rollup-plugin-nunjucks": "^0.1.0"
+    "typescript": "^4.1.3"
   }
 }
