@@ -11,7 +11,7 @@ export const resetGame = () => {
 
 export const setLevel = (levelNumber: number) => {
   return (dispatch) => {
-    if(levelNumber < 1 || levelNumber > 8) return;
+    if(levelNumber < 1 || levelNumber > 10) return;
     dispatch({
       type: SET_LEVEL_ACTION,
       value: levelNumber

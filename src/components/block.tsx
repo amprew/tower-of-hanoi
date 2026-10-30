@@ -2,11 +2,18 @@ import React from 'react';
 
 type Props = {
   size: number;
-  active: boolean;
+  blockCount: number;
+  active?: boolean;
 }
 
-const Block = ({ size, active = false }: Props) => {
-  return <div className={`block block-${size} ${active ? 'active-block' : ''}`}></div>
+const Block = ({ size, blockCount, active = false }: Props) => {
+  const width = 32 + ((size - 1) * 54) / (blockCount - 1);
+  return (
+    <div
+      className={`block block-${size} ${active ? 'active-block' : ''}`}
+      style={{ width: `${width}%` }}
+    />
+  );
 };
 
 export default React.memo(Block);

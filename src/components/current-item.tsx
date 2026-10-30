@@ -2,7 +2,7 @@ import React from 'react';
 
 import Block from './block';
 
-const CurrentItem = ({ board, currentSelected, hoverOverride }) => {
+const CurrentItem = ({ board, currentSelected, hoverOverride, blockCount }) => {
   if(currentSelected === null) {
     return null;
   }
@@ -14,7 +14,7 @@ const CurrentItem = ({ board, currentSelected, hoverOverride }) => {
 
   return (
     <div className="col col-short col-active" style={{ left: hoverOverride !== null ? gameWidth*hoverOverride : gameWidth*currentSelected }}>
-      <Block size={currentSelectedSize} active={true} />
+      <Block size={currentSelectedSize} blockCount={blockCount} active={true} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -16,20 +16,41 @@ import LevelSelector from './level-selector';
 
 import { getBlockCount } from '../reducers/game';
 
-const getHanoiMoves = (blockCount: number): [number, number][] => {
-  const moves: [number, number][] = [];
-  const moveStack = (count: number, from: number, to: number, spare: number) => {
-    if(count === 0) return;
-    moveStack(count - 1, from, spare, to);
-    moves.push([from, to]);
-    moveStack(count - 1, spare, to, from);
-  };
+const getHanoiMove = (
+  blockCount: number,
+  moveNumber: number,
+  diskPositions: number[]
+): [number, number] => {
+  let diskIndex = 0;
+  let remainingMoves = moveNumber;
+  while(remainingMoves % 2 === 0) {
+    diskIndex += 1;
+    remainingMoves /= 2;
+  }
 
-  moveStack(blockCount, 0, 2, 1);
-  return moves;
+  const diskNumber = diskIndex + 1;
+  const direction = blockCount % 2 === diskNumber % 2 ? -1 : 1;
+  const from = diskPositions[diskIndex];
+  const to = (from + direction + 3) % 3;
+  diskPositions[diskIndex] = to;
+  return [from, to];
 };
 
 const wait = (duration: number) => new Promise<void>(resolve => setTimeout(resolve, duration));
+
+const MOVE_ANIMATION_DURATION_MS = 150;
+const MOVE_PAUSE_MS = 220;
+const ESTIMATED_SECONDS_PER_MOVE = (
+  MOVE_ANIMATION_DURATION_MS * 2 + MOVE_PAUSE_MS
+) / 1000;
+
+const formatCountdown = (seconds: number) => {
+  const totalSeconds = Math.max(0, Math.ceil(seconds));
+  const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+  const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+  const remainingSeconds = (totalSeconds % 60).toString().padStart(2, '0');
+  return `${hours}:${minutes}:${remainingSeconds}`;
+};
 
 const Game = ({
   board,
@@ -43,6 +64,8 @@ const Game = ({
 }) => {
   const [hoverOverride, setHoverOverride] = useState(null);
   const [isAutoplaying, setIsAutoplaying] = useState(false);
+  const [countdownSeconds, setCountdownSeconds] = useState(0);
+  const countdownDeadline = useRef<number | null>(null);
   const handleMouseOver = (index) => {
     if(isAnimating || isAutoplaying) return;
     setHoverOverride(index)
@@ -54,19 +77,52 @@ const Game = ({
   const gameWon = board[board.length-1].length >= blockCount;
 
   useEffect(() => {
-    if(!isAutoplaying) return undefined;
+    if(!isAutoplaying) {
+      countdownDeadline.current = null;
+      setCountdownSeconds(0);
+      return undefined;
+    }
 
     let cancelled = false;
-    const moves = getHanoiMoves(blockCount);
     let moveIndex = 0;
+    const diskPositions = Array(blockCount).fill(0);
+    const totalMoves = (2 ** blockCount) - 1;
+    const recentMoveDurations: number[] = [];
+    const startedAt = Date.now();
+    let lastEstimateAt = startedAt;
+    countdownDeadline.current = startedAt + totalMoves * ESTIMATED_SECONDS_PER_MOVE * 1000;
+    setCountdownSeconds(Math.ceil(totalMoves * ESTIMATED_SECONDS_PER_MOVE));
+
+    const countdownTimer = window.setInterval(() => {
+      const now = Date.now();
+      if(now - lastEstimateAt >= 5000 && recentMoveDurations.length > 0) {
+        const averageMoveDuration = recentMoveDurations.reduce(
+          (total, duration) => total + duration,
+          0
+        ) / recentMoveDurations.length;
+        const remainingMoves = totalMoves - moveIndex;
+        countdownDeadline.current = now + remainingMoves * averageMoveDuration;
+        lastEstimateAt = now;
+      }
+
+      const deadline = countdownDeadline.current;
+      if(deadline !== null) {
+        const secondsRemaining = Math.ceil(Math.max(0, deadline - now) / 1000);
+        setCountdownSeconds(Math.max(1, secondsRemaining));
+      }
+    }, 1000);
+
     const playNextMove = () => {
       if(cancelled) return;
-      if(moveIndex >= moves.length) {
+      if(moveIndex >= totalMoves) {
+        countdownDeadline.current = Date.now();
+        setCountdownSeconds(0);
         setIsAutoplaying(false);
         return;
       }
 
-      const [from, to] = moves[moveIndex];
+      const moveStartedAt = Date.now();
+      const [from, to] = getHanoiMove(blockCount, moveIndex + 1, diskPositions);
       setHoverOverride(from);
       const columns = document.querySelectorAll<HTMLElement>('.col.block-group');
       let pickAnimation = Promise.resolve();
@@ -79,7 +135,7 @@ const Game = ({
         if(cancelled) return;
 
         setHoverOverride(to);
-        return wait(220).then(() => {
+        return wait(MOVE_PAUSE_MS).then(() => {
           if(cancelled) return;
 
           let dropAnimation = Promise.resolve();
@@ -91,6 +147,8 @@ const Game = ({
           return dropAnimation.then(() => {
             if(cancelled) return;
             moveIndex += 1;
+            recentMoveDurations.push(Date.now() - moveStartedAt);
+            if(recentMoveDurations.length > 100) recentMoveDurations.shift();
             playNextMove();
           });
         });
@@ -101,6 +159,7 @@ const Game = ({
     playNextMove();
     return () => {
       cancelled = true;
+      window.clearInterval(countdownTimer);
     };
   }, [isAutoplaying, blockCount, setSelectedColumn]);
 
@@ -108,6 +167,10 @@ const Game = ({
   const handleReset = () => {
     stopAutoplay();
     resetGame();
+  };
+  const handleAutoplayToggle = () => {
+    resetGame();
+    setIsAutoplaying(!isAutoplaying);
   };
   const handleSetLevel = (newLevel: number) => {
     stopAutoplay();
@@ -126,10 +189,15 @@ const Game = ({
       <div className="game">
         <div className="game-controls">
           <MoveCount count={moveCount} blockCount={blockCount} />
+          {(isAutoplaying || gameWon) && (
+            <div aria-live="polite">
+              Time remaining: <time>{formatCountdown(countdownSeconds)}</time>
+            </div>
+          )}
           <LevelSelector level={level} setLevel={handleSetLevel} />
           <button onClick={handleReset} type="button" className="link-button">Restart</button>
           <button
-            onClick={() => setIsAutoplaying(!isAutoplaying)}
+            onClick={handleAutoplayToggle}
             type="button"
             className="link-button"
             disabled={gameWon && !isAutoplaying}
@@ -139,7 +207,7 @@ const Game = ({
         </div>
 
         <div className="col-wrapper current-item-container">
-          <CurrentItem board={board} currentSelected={currentSelected} hoverOverride={hoverOverride} />
+          <CurrentItem board={board} currentSelected={currentSelected} hoverOverride={hoverOverride} blockCount={blockCount} />
         </div>
 
         <div className="col-wrapper" style={{ height: boardHeight }}>
@@ -147,6 +215,7 @@ const Game = ({
             board.map((items, index) => (
               <Col
                 items={items}
+                blockCount={blockCount}
                 currentSelected={currentSelected}
                 setSelectedColumn={setSelectedColumn}
                 index={index}

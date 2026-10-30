@@ -6,6 +6,7 @@ import Block from './block';
 
 type Props = {
   items: number[],
+  blockCount: number,
   currentSelected: number,
   setSelectedColumn: (index: number, animation: () => Promise<void>) => boolean,
   index: number,
@@ -51,6 +52,7 @@ const applyActiveShake = () => {
 
 const Col = ({
   items,
+  blockCount,
   currentSelected,
   setSelectedColumn,
   index,
@@ -84,7 +86,7 @@ const Col = ({
         {
           items
             .slice(currentSelected === index ? 1 : 0)
-            .map((item) => <Block size={item} key={item} />)
+            .map((item) => <Block size={item} blockCount={blockCount} key={item} />)
         }
     </div>
   );
