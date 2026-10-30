@@ -9,22 +9,22 @@ type Props = {
   currentSelected: number,
   setSelectedColumn: (index: number, animation: () => Promise<void>) => boolean,
   index: number,
-  handleMouseOver: (index: number) => void
+  handleMouseOver: (index: number) => void,
+  disabled: boolean
 }
 
 type PreloadedAnimation = () => Promise<void>;
 
-const animateBlockUp = (column: HTMLElement): PreloadedAnimation => () => {
+export const animateBlockUp = (column: HTMLElement): PreloadedAnimation => () => {
   const firstBlock: HTMLElement = column.querySelector('.block:first-child');
-  if(!firstBlock) return;
+  if(!firstBlock) return Promise.resolve();
 
   const computedVal = (-firstBlock.offsetTop - firstBlock.offsetHeight - 2) + 'px';
 
   return animate(firstBlock, 'top', computedVal);
-  // firstBlock.style.top = (-firstBlock.offsetTop - firstBlock.offsetHeight - 2) + "px";
 };
 
-const animateBlockDown = (column): PreloadedAnimation => () => {
+export const animateBlockDown = (column: HTMLElement): PreloadedAnimation => () => {
   const firstBlock: HTMLElement = column.querySelector('.block:first-child');
   const firstBlockRect = firstBlock?.getBoundingClientRect();
 
@@ -49,10 +49,18 @@ const applyActiveShake = () => {
   setTimeout(() => activeBlock.classList.remove('shake-animation'), 500);
 };
 
-const Col = ({ items, currentSelected, setSelectedColumn, index, handleMouseOver }: Props) => {
+const Col = ({
+  items,
+  currentSelected,
+  setSelectedColumn,
+  index,
+  handleMouseOver,
+  disabled
+}: Props) => {
   const colRef = useRef(null);
 
   const onClick = () => {
+    if(disabled) return;
     handleMouseOver(index);
 
     const animation = currentSelected === null ?
