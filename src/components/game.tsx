@@ -40,6 +40,7 @@ const wait = (duration: number) => new Promise<void>(resolve => setTimeout(resol
 
 const MOVE_ANIMATION_DURATION_MS = 150;
 const MOVE_PAUSE_MS = 220;
+const MAX_ESTIMATED_MOVE_DURATION_MS = 5000;
 const ESTIMATED_SECONDS_PER_MOVE = (
   MOVE_ANIMATION_DURATION_MS * 2 + MOVE_PAUSE_MS
 ) / 1000;
@@ -147,8 +148,11 @@ const Game = ({
           return dropAnimation.then(() => {
             if(cancelled) return;
             moveIndex += 1;
-            recentMoveDurations.push(Date.now() - moveStartedAt);
-            if(recentMoveDurations.length > 100) recentMoveDurations.shift();
+            const moveDuration = Date.now() - moveStartedAt;
+            if(moveDuration <= MAX_ESTIMATED_MOVE_DURATION_MS) {
+              recentMoveDurations.push(moveDuration);
+              if(recentMoveDurations.length > 100) recentMoveDurations.shift();
+            }
             playNextMove();
           });
         });
