@@ -188,13 +188,13 @@ const Game = ({
 
       <div className="game">
         <div className="game-controls">
+          <LevelSelector level={level} setLevel={handleSetLevel} />
           <MoveCount count={moveCount} blockCount={blockCount} />
           {(isAutoplaying || gameWon) && (
             <div aria-live="polite">
               Time remaining: <time>{formatCountdown(countdownSeconds)}</time>
             </div>
           )}
-          <LevelSelector level={level} setLevel={handleSetLevel} />
           <button onClick={handleReset} type="button" className="link-button">Restart</button>
           <button
             onClick={handleAutoplayToggle}
