@@ -93,6 +93,8 @@ html, body {
 }
 
 .col.block-group {
+  flex: 1 1 0;
+  min-width: 0;
   min-height: 240px;
   position: relative;
   padding-top: 1rem;
@@ -147,32 +149,90 @@ html, body {
 
 .block-1 {
   background-color: rgba(220, 38, 38);
-  width: 40%;
 }
 
 .block-2 {
   background-color: rgba(245, 158, 11);
-  width: 50%;
 }
 
 .block-3 {
   background-color: rgba(37, 99, 235);
-  width: 60%;
 }
 
 .block-4 {
   background-color: rgba(253, 230, 138);
-  width: 70%;
 }
 
 .block-5 {
   background-color: rgba(0, 0, 0);
-  width: 80%;
 }
 
 .block-6 {
   background-color: rgba(5, 150, 105);
-  width: 90%;
+}
+
+.block-7 {
+  background-color: #7c3aed;
+}
+
+.block-8 {
+  background-color: #db2777;
+}
+
+.block-9 {
+  background-color: #0891b2;
+}
+
+.block-10 {
+  background-color: #64748b;
+}
+
+.block-11 {
+  background-color: #dc2626;
+}
+
+.block-12 {
+  background-color: #ea580c;
+}
+
+.block-13 {
+  background-color: #ca8a04;
+}
+
+.block-14 {
+  background-color: #65a30d;
+}
+
+.block-15 {
+  background-color: #059669;
+}
+
+.block-16 {
+  background-color: #0891b2;
+}
+
+.block-17 {
+  background-color: #2563eb;
+}
+
+.block-18 {
+  background-color: #4f46e5;
+}
+
+.block-19 {
+  background-color: #9333ea;
+}
+
+.block-20 {
+  background-color: #c026d3;
+}
+
+.block-21 {
+  background-color: #db2777;
+}
+
+.block-22 {
+  background-color: #e11d48;
 }
 
 .github-link {
