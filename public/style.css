@@ -435,7 +435,7 @@ button {
 }
 
 .math-explanation p {
-  max-width: 70ch;
+  max-width: 75%;
   margin: 0.6rem 0 0;
   color: #696a62;
   font-size: 0.85rem;
